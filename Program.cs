@@ -18,12 +18,13 @@ namespace MsgConsumer
             ThreadPool.QueueUserWorkItem(async _ => 
             {
                 var healthCheckListener = new HttpListener();
-                healthCheckListener.Prefixes.Add("http://*/health");
+                healthCheckListener.Prefixes.Add("http://*/");
                 healthCheckListener.Start();
                 while(true)
                 {
                     var ctx = await healthCheckListener.GetContextAsync();
                     ctx.Response.StatusCode = 200;
+                    ctx.Response.OutputStream.Close();
                 }
             });
 
