@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
+using System.Threading;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
@@ -12,6 +14,18 @@ namespace MsgConsumer
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            ThreadPool.QueueUserWorkItem(async _ => 
+            {
+                var healthCheckListener = new HttpListener();
+                healthCheckListener.Prefixes.Add("http://*/health");
+                healthCheckListener.Start();
+                while(true)
+                {
+                    var ctx = await healthCheckListener.GetContextAsync();
+                    ctx.Response.StatusCode = 200;
+                }
+            });
 
             var queueUrl = Environment.GetEnvironmentVariable("QUEUE_URL");
             var client = new AmazonSQSClient();
