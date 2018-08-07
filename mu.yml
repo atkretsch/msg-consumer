@@ -1,3 +1,6 @@
+environments:
+- name: acceptance
+- name: production
 service:
   port: 80
   pathPatterns:
@@ -6,3 +9,10 @@ service:
     source:
       provider: GitHub
       repo: atkretsch/msg-consumer
+templates:
+  mu-iam-service-msg-consumer-acceptance:
+    Resources:
+      EcsTaskRole:
+        Properties:
+          ManagedPolicyArns:
+          - "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
