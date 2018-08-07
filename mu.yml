@@ -1,0 +1,7 @@
+service:
+  pathPatterns:
+  - /*
+  pipeline:
+    source:
+      provider: GitHub
+      repo: atkretsch/msg-consumer
