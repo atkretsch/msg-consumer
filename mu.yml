@@ -7,7 +7,7 @@ service:
   networkMode: awsvpc
   port: 80
   pathPatterns:
-  - /*
+  - /msg-consumer/*
   pipeline:
     source:
       provider: GitHub
